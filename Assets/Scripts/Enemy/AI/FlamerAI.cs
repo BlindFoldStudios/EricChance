@@ -108,14 +108,15 @@ public class FlamerAI : MonoBehaviour {
 
 
 		//!TODO: Testing for enemy is seen
-		if (Input.GetKeyDown(KeyCode.Space))
+		if (Input.GetKeyDown(KeyCode.F))
 		{
 			//Checks if the gameobject is the flamer
 
 			//Increases walk speed
-			walkSpeed = 5;
+			walkSpeed = 0;
 			//Sets the running animation
-			anim.SetBool("isRunning", true);
+			anim.SetBool("isWalking", false);
+			anim.SetBool("isShooting", true);
 		}
 
 

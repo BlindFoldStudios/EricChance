@@ -4,7 +4,9 @@ using System.Collections;
 [RequireComponent(typeof(Controller2D))]
 public class Player : MonoBehaviour
 {
+
     public Animator anim;
+
     private bool isFlipped;
 
     public float maxJumpHeight = 4;
@@ -30,14 +32,14 @@ public class Player : MonoBehaviour
 
     Controller2D controller;
 
+	public bool _grounded = true;
 
     public bool isTakenControlOf;
 
     void Start()
     {
         controller = GetComponent<Controller2D>();
-
-
+		
 		#region //Dealing With Gravity
 		gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
@@ -52,6 +54,16 @@ public class Player : MonoBehaviour
         {
             return;
         }
+
+
+		
+		//anim.SetBool("isFalling", )
+
+
+
+		
+
+
 
 		#region //Walking Animation & Flipping the player
 		anim.SetFloat("playerSpeed", Mathf.Abs(Input.GetAxis("Horizontal")));
@@ -90,13 +102,18 @@ public class Player : MonoBehaviour
 		if (Input.GetAxisRaw("Horizontal") == 0)
         {
 
-			moveSpeed = 4;
+			//moveSpeed = 4;
 
 			anim.SetBool("isRunning", false);
             anim.SetFloat("playerSpeed", 0);
+
+
         }
 		#endregion
 
+		
+				
+		
 
 		Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         int wallDirX = (controller.collisions.left) ? -1 : 1;
@@ -163,14 +180,22 @@ public class Player : MonoBehaviour
 
             if (controller.collisions.below)
             {
+				 //Grounded is not grounded
                 velocity.y = maxJumpVelocity;
-            }
+
+				_grounded = false;
+				anim.SetBool("isGrounded", _grounded);
+			}
         }
+
+
         if (Input.GetKeyUp(KeyCode.Space))
         {
             if (velocity.y > minJumpVelocity)
             {
-                velocity.y = minJumpVelocity;
+				_grounded = false;
+				anim.SetBool("isGrounded", _grounded);
+				velocity.y = minJumpVelocity;
             }
         }
 
@@ -180,7 +205,9 @@ public class Player : MonoBehaviour
 
         if (controller.collisions.above || controller.collisions.below)
         {
-            velocity.y = 0;
+			_grounded = true; //Character is grounded
+			anim.SetBool("isGrounded", _grounded);
+			velocity.y = 0;
         }
 
     }
