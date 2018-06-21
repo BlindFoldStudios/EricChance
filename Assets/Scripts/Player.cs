@@ -56,12 +56,12 @@ public class Player : MonoBehaviour
         }
 
 
+		anim.SetBool("isGrounded", _grounded);
 		
-		//anim.SetBool("isFalling", )
 
 
 
-		
+
 
 
 
@@ -111,7 +111,7 @@ public class Player : MonoBehaviour
         }
 		#endregion
 
-		
+		Debug.Log("grounded = " + _grounded);
 				
 		
 
@@ -184,7 +184,7 @@ public class Player : MonoBehaviour
                 velocity.y = maxJumpVelocity;
 
 				_grounded = false;
-				anim.SetBool("isGrounded", _grounded);
+				
 			}
         }
 
@@ -194,7 +194,8 @@ public class Player : MonoBehaviour
             if (velocity.y > minJumpVelocity)
             {
 				_grounded = false;
-				anim.SetBool("isGrounded", _grounded);
+				anim.SetBool("isFalling", true);
+
 				velocity.y = minJumpVelocity;
             }
         }
@@ -206,7 +207,7 @@ public class Player : MonoBehaviour
         if (controller.collisions.above || controller.collisions.below)
         {
 			_grounded = true; //Character is grounded
-			anim.SetBool("isGrounded", _grounded);
+			
 			velocity.y = 0;
         }
 
